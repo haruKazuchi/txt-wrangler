@@ -12,6 +12,7 @@
 					data.push(obj)
 					// data.push(event.target.files[i].webkitRelativePath.split('/'))
 				}
+				var rootName = event.target.files[0].webkitRelativePath.split('/').slice(0,1)
 				// console.log(event.target.files);
 				// var rootH = ""
 				// var hierarchy
@@ -25,38 +26,46 @@
 				var hierarchy = {}
 				data.map(file => {
             var paths = file.path.split('/').slice(0, -1)
-            var parentFolder = null;
+            var parentFolder = null
+						var $outputscreen = $('#outputscreen')
             // builds the hierarchy of folders.
             paths.map(path => {
                 if (!parentFolder) {
                     if (!hierarchy[path]) {
                         hierarchy[path] = {
-                            name: path,
+                            id: path,
                             children: {},
-                            files: [],
+                            text: [],
                         };
+												$outputscreen.val($outputscreen.val() + '\r\n' + '\r\n' + path);
                     }
                     parentFolder = hierarchy[path]
                 } else {
                     if (!parentFolder.children[path]) {
                         parentFolder.children[path] = {
-                            name: path,
+                            id: path,
                             children: {},
-                            files: [],
+                            text: [],
                         };
+												$outputscreen.val($outputscreen.val() + '\r\n' + '\r\n' + '\t' + path);
                     }
                     parentFolder = parentFolder.children[path]
                 }
+
             });
-            parentFolder.files.push(file.path.split('/').slice(-1))
+            parentFolder.text.push(file.path.split('/').slice(-1))
+						$outputscreen.val($outputscreen.val() + '\r\n' + '\t' + '\t' + file.path.split('/').slice(-1));
         });
-				this.showScreen(hierarchy)
+				this.showScreen(hierarchy,rootName)
 			})
 		},
-		showScreen: function(hierarchy){
+		showScreen: function(hierarchy, rootName){
+			console.log(rootName)
 			var $outputscreen = $('#outputscreen')
 
-			$outputscreen.val(JSON.stringify(hierarchy, undefined, 2))
+			// $outputscreen.val(JSON.stringify(hierarchy, undefined, 2))
+
+
 		}
 
 	}
