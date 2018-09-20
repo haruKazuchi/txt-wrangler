@@ -28,6 +28,7 @@
             var paths = file.path.split('/').slice(0, -1)
             var parentFolder = null
 						var $outputscreen = $('#outputscreen')
+						var tabLevel = 0
             // builds the hierarchy of folders.
             paths.map(path => {
                 if (!parentFolder) {
@@ -37,7 +38,7 @@
                             children: {},
                             text: [],
                         };
-												$outputscreen.val($outputscreen.val() + '\r\n' + '\r\n' + path);
+												$outputscreen.val($outputscreen.val() + path);
                     }
                     parentFolder = hierarchy[path]
                 } else {
@@ -47,14 +48,14 @@
                             children: {},
                             text: [],
                         };
-												$outputscreen.val($outputscreen.val() + '\r\n' + '\r\n' + '\t' + path);
+												$outputscreen.val($outputscreen.val() + '\r\n' + '\r\n' + this.tabLevel(tabLevel) + path);
                     }
                     parentFolder = parentFolder.children[path]
                 }
-
+							tabLevel++
             });
             parentFolder.text.push(file.path.split('/').slice(-1))
-						$outputscreen.val($outputscreen.val() + '\r\n' + '\t' + '\t' + file.path.split('/').slice(-1));
+						$outputscreen.val($outputscreen.val() + '\r\n' + this.tabLevel(tabLevel) + file.path.split('/').slice(-1));
         });
 				this.showScreen(hierarchy,rootName)
 			})
@@ -62,10 +63,14 @@
 		showScreen: function(hierarchy, rootName){
 			console.log(rootName)
 			var $outputscreen = $('#outputscreen')
-
 			// $outputscreen.val(JSON.stringify(hierarchy, undefined, 2))
-
-
+		},
+		tabLevel: function(level){
+			var tab = ''
+			for (var i = 0; i < level; i++) {
+				tab += '\t'
+			}
+			return tab
 		}
 
 	}
