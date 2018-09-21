@@ -11,10 +11,25 @@
 	<body>
 		<div class="main">
 			<div class="input">
-				<h3>Folder Upload</h3>
-				<input id="file" type="file" webkitdirectory="" directory="">
+				<div class="left">
+					<h3>Folder Upload</h3>
+					<input id="file" type="file" webkitdirectory="" directory="">
+				</div>
+				<div class="right">
+					<h3>除外ファイル/ディレクトリ</h3>
+					<textarea id="except"></textarea>
+					<button id="except-button">除外する</button>
+					<div class="rei">
+						<h4>例：</h4>
+						node_module<br>
+						.DS_Store<br>
+						.editorconfig<br>
+						<span>*改行必要</span>
+					</div>
+				</div>
 			</div>
 			<div class="output">
+				<h3>Tree Directory</h3>
 				<textarea id="outputscreen"></textarea>
 			</div>
 			<div id="jstree-tree"></div>
@@ -23,6 +38,37 @@
 			.main{
 				width: 800px;
 				margin: 20px auto;
+			}
+			*{
+				outline: none;
+			}
+			.input{
+				display: flex;
+				justify-content: space-between;
+				align-items: stretch;
+			}
+			.left{
+				width: 50%;
+			}
+			.right{
+				width: 50%;
+			}
+			.right #except{
+				resize: none;
+				width: 100%;
+				height: 200px;
+			}
+			.right .rei > h4{
+				margin-bottom: 10px;
+				font-size: 16px;
+			}
+			.right .rei{
+				font-size: 12px;
+			}
+			.right .rei > span{
+				display: block;
+				margin-top: 5px;
+				color: red;
 			}
 			.output{
 				margin-top: 50px;
